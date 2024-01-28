@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+
+    <property>
+        <name>dfs.name.dir</name>
+        <value>file:///home/hadoop/hdfs/namenode</value>
+    </property>
+ 
+    <property>
+        <name>dfs.data.dir</name>
+        <value>file:///home/hadoop/hdfs/datanode</value>
+    </property>
+</configuration>
