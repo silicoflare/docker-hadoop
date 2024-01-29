@@ -37,6 +37,7 @@ COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 COPY mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
 COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/bin" >> ~/.bashrc
 RUN echo "export HADOOP_HOME=/usr/local/hadoop" >> ~/.bashrc
 RUN echo "export HADOOP_INSTALL=\$HADOOP_HOME" >> ~/.bashrc
 RUN echo "export HADOOP_MAPRED_HOME=\$HADOOP_HOME" >> ~/.bashrc
@@ -55,11 +56,19 @@ RUN echo "YARN_RESOURCEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 RUN echo "export HADOOP_CLASSPATH+=\" \$HADOOP_HOME/lib/*.jar\"" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 
+# Copy init and restart scripts
 COPY restart $HADOOP_HOME/bin/restart
-RUN chmod +x $HADOOP_HOME/bin/restart
-
 COPY init $HADOOP_HOME/bin/init
+RUN chmod +x $HADOOP_HOME/bin/restart
 RUN chmod +x $HADOOP_HOME/bin/init
+
+# Install pig
+RUN wget -O pig.tar.gz https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.tar.gz
+RUN tar -xzvf pig.tar.gz
+RUN mv pig-0.17.0 /pig
+RUN echo "export PIG_HOME=/pig" >> ~/.bashrc
+RUN echo "export PATH=\$PATH:/pig/bin" >> ~/.bashrc
+RUN echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
 
 # Expose necessary ports
 EXPOSE 9870 8088 9000
