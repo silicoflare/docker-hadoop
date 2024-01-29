@@ -13,9 +13,7 @@ ENV YARN_RESOURCEMANAGER_USER=root
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get install -y ssh && \
-    apt-get install -y openjdk-8-jdk && \
-    apt-get install -y neovim && \
+    apt-get install -y ssh openjdk-8-jdk neovim junit && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and extract Hadoop
