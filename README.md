@@ -27,17 +27,13 @@ docker build -t hadoop .
 
 6. Create a new container using the newly created image
 ```bash
-docker run -it --name anyname hadoop bash
+docker run -it -p 9870:3000 --name anyname hadoop bash
 ```
 <br>
 
-7. Once the Docker prompt appears, execute the following commands one by one:
+7. Once the prompt appears, execute the following command to initialize everything:
 ```bash
-service ssh restart
-stop-all.sh
-hdfs namenode -format
-start-all.sh
-jps
+init
 ```
 <br>
 
@@ -49,8 +45,5 @@ docker exec -it anyname bash
 
 Once in, execute:
 ```bash
-service ssh restart
-stop-all.sh
-start-all.sh
-jps
+restart
 ```
