@@ -55,8 +55,11 @@ RUN echo "YARN_RESOURCEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 RUN echo "export HADOOP_CLASSPATH+=\" \$HADOOP_HOME/lib/*.jar\"" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 
-COPY restart-all.sh $HADOOP_HOME/bin/restart-all.sh 
-RUN chmod +x $HADOOP_HOME/bin/restart-all.sh
+COPY restart $HADOOP_HOME/bin/restart
+RUN chmod +x $HADOOP_HOME/bin/restart
+
+COPY init $HADOOP_HOME/bin/init
+RUN chmod +x $HADOOP_HOME/bin/init
 
 # Expose necessary ports
 EXPOSE 9870 8088 9000

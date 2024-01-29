@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+service ssh restart
+stop-all.sh
+hdfs namenode -format
+start-all.sh
+jps
