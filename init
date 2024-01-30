@@ -3,6 +3,7 @@ service ssh restart
 stop-hbase.sh
 stop-all.sh
 hdfs namenode -format
+rm *.tar.gz
 start-all.sh
 start-hbase.sh
 jps
