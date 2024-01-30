@@ -1,12 +1,19 @@
 # Hadoop on Docker
 Use this to get a quick version of Hadoop to run on Docker.
 
-1. Install Docker
+1. Install Docker on your host PC
 <br>
 
-2. Clone this repository
+2. Clone your platform specific branch of this repository
 ```bash
-git clone https://github.com/silicoflare/docker-hadoop
+# Windows
+git clone -b windows --single-branch https://github.com/silicoflare/docker-hadoop
+
+# Mac
+git clone -b mac --single-branch https://github.com/silicoflare/docker-hadoop
+
+# Linux
+git clone -b linux --single-branch https://github.com/silicoflare/docker-hadoop
 ```
 <br>
 
@@ -27,7 +34,7 @@ docker build -t hadoop .
 
 6. Create a new container using the newly created image
 ```bash
-docker run -it -p 9870:3000 --name anyname hadoop bash
+docker run -it -p 9870:9870 --name anyname hadoop bash
 ```
 <br>
 

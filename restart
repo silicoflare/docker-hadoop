@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 service ssh restart
+stop-hbase.sh
 stop-all.sh
 start-all.sh
+start-hbase.sh
 jps

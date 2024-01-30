@@ -70,5 +70,18 @@ RUN echo "export PIG_HOME=/pig" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:/pig/bin" >> ~/.bashrc
 RUN echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
 
+# Install hbase
+RUN wget http://apache.mirror.gtcomm.net/hbase/stable/hbase-2.5.7-bin.tar.gz
+RUN tar -xzvf hbase-2.5.7-bin.tar.gz
+RUN mv hbase-2.5.7 /usr/local/hbase
+RUN echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc
+RUN echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc
+RUN echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh
+RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /usr/local/hbase/conf/hbase-env.sh
+COPY hbase-site.xml ~/hbase-site.xml
+
+RUN mkdir -p /hadoop/zookeeper
+RUN chown -R $USER:$USER /hadoop/
+
 # Expose necessary ports
 EXPOSE 9870 8088 9000

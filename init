@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 service ssh restart
+stop-hbase.sh
 stop-all.sh
 hdfs namenode -format
 start-all.sh
+start-hbase.sh
 jps
