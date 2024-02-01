@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
-service ssh restart
-stop-hbase.sh
+
+service ssh restart                 # restart ssh service
+stop-hbase.sh                       # stop all processes
 stop-all.sh
-hdfs namenode -format
-rm *.tar.gz
-start-all.sh
+hdfs namenode -format               # format namenodes
+rm *.tar.gz                         # delete all tar files to save space
+
+# start all
+start-all.sh    
 start-hbase.sh
-jps
+
+# hive initialization
+hdfs dfs -mkdir /tmp
+hdfs dfs -chmod g+w /tmp
+hdfs dfs -mkdir -p /user/hive/warehouse
+hdfs dfs -chmod g+w /user/hive/warehouse
+schematool -dbType derby -initSchema
+

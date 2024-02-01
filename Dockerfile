@@ -83,5 +83,13 @@ COPY hbase-site.xml ~/hbase-site.xml
 RUN mkdir -p /hadoop/zookeeper
 RUN chown -R $USER:$USER /hadoop/
 
+# Install Hive
+RUN wget https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz
+RUN tar -xzvf apache-hive-3.1.3-bin.tar.gz
+RUN mv apache-hive-3.1.3-bin /usr/local/hive
+RUN echo "export HIVE_HOME=/usr/local/hive" >> ~/.bashrc
+RUN echo "export PATH=\$PATH:\$HIVE_HOME/bin" >> ~/.bashrc
+RUN echo "HADOOP_HOME=/usr/local/hadoop" >> /usr/local/hive/bin/hive-config.sh
+
 # Expose necessary ports
 EXPOSE 9870 8088 9000
