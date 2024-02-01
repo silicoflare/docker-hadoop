@@ -91,5 +91,13 @@ RUN echo "export HIVE_HOME=/usr/local/hive" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:\$HIVE_HOME/bin" >> ~/.bashrc
 RUN echo "HADOOP_HOME=/usr/local/hadoop" >> /usr/local/hive/bin/hive-config.sh
 
+# Install Flume
+RUN wget https://archive.apache.org/dist/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
+RUN tar -xzvf apache-flume-1.9.0-bin.tar.gz
+RUN mv apache-flume-1.9.0-bin /usr/local/flume
+RUN echo "export FLUME_HOME=/usr/local/flume" >> ~/.bashrc
+RUN echo "export PATH=\$PATH:\$FLUME_HOME/bin" >> ~/.bashrc
+RUN sed -i '214c\  \$EXEC \$JAVA_HOME/java \$JAVA_OPTS \$FLUME_JAVA_OPTS "\${arr_java_props[@]}" -cp "\$FLUME_CLASSPATH" \\' /usr/local/flume/bin/flume-ng
+
 # Expose necessary ports
 EXPOSE 9870 8088 9000
