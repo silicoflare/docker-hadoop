@@ -117,10 +117,10 @@ RUN mv postgresql-42.7.1.jar /usr/local/sqoop/lib/
 
 # Install Zookeeper
 RUN wget https://downloads.apache.org/zookeeper/zookeeper-3.9.1/apache-zookeeper-3.9.1-bin.tar.gz
-RUN sudo tar -xvf apache-zookeeper-3.9.1-bin.tar.gz
+RUN tar -xvf apache-zookeeper-3.9.1-bin.tar.gz
 RUN mv apache-zookeeper-3.9.1-bin /usr/local/zookeeper
-RUN mv zoo_sample.cfg zoo.cfg
-RUN echo "export ZOOKEEPER_HOME=/opt/zookeeper" >> ~/.bashrc
+RUN mv /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg
+RUN echo "export ZOOKEEPER_HOME=/usr/local/zookeeper" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:\$ZOOKEEPER_HOME/bin" >> ~/.bashrc
 
 # Expose necessary ports
