@@ -34,7 +34,7 @@ docker build -t hadoop .
 
 6. Create a new container using the newly created image
 ```bash
-docker run -it -p 9870:9870 --name anyname hadoop bash
+docker run -it -p 9870:9870 -p 8088:8088 -p 9864:9864 --name anyname hadoop bash
 ```
 <br>
 

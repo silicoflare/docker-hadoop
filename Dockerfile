@@ -109,7 +109,9 @@ RUN echo "export HADOOP_COMMON_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/
 RUN echo "export HADOOP_MAPRED_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
 
 # Install PostgreSQL
-RUN apt-get install -y postgresql
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install -y postgresql
 RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
 RUN mv postgresql-42.7.1.jar /usr/local/sqoop/lib/
 
