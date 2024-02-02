@@ -13,8 +13,7 @@ ENV YARN_RESOURCEMANAGER_USER=root
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get install -y ssh openjdk-8-jdk neovim junit && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y ssh openjdk-8-jdk neovim junit python-is-python3 nano
 
 # Download and extract Hadoop
 RUN mkdir -p $HADOOP_HOME
@@ -98,6 +97,16 @@ RUN mv apache-flume-1.9.0-bin /usr/local/flume
 RUN echo "export FLUME_HOME=/usr/local/flume" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:\$FLUME_HOME/bin" >> ~/.bashrc
 RUN sed -i '214c\  \$EXEC \$JAVA_HOME/java \$JAVA_OPTS \$FLUME_JAVA_OPTS "\${arr_java_props[@]}" -cp "\$FLUME_CLASSPATH" \\' /usr/local/flume/bin/flume-ng
+
+# Install Sqoop
+RUN wget https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+RUN tar -xzvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+RUN mv sqoop-1.4.7.bin__hadoop-2.6.0 /usr/local/sqoop
+RUN echo "export SQOOP_HOME=/usr/local/sqoop" >> ~/.bashrc
+RUN echo "export PATH=\$PATH:\$SQOOP_HOME/bin" >> ~/.bashrc
+RUN mv /usr/local/sqoop/conf/sqoop-env-template.sh /usr/local/sqoop/conf/sqoop-env.sh
+RUN echo "export HADOOP_COMMON_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
+RUN echo "export HADOOP_MAPRED_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
 
 # Expose necessary ports
 EXPOSE 9870 8088 9000
