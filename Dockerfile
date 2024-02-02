@@ -110,3 +110,9 @@ RUN echo "export HADOOP_MAPRED_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/
 
 # Expose necessary ports
 EXPOSE 9870 8088 9000
+
+#installing postgresql
+RUN apt-get -y install postgresql
+RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
+RUN mv postgresql-42.7.1.jar /usr/local/sqoop/lib/
+
