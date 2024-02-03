@@ -13,7 +13,7 @@ ENV YARN_RESOURCEMANAGER_USER=root
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get install -y ssh openjdk-8-jdk neovim junit python-is-python3 nano
+    apt-get install -y ssh openjdk-8-jdk neovim junit python-is-python3 nano curl python3-pip
 
 # Download and extract Hadoop
 RUN mkdir -p $HADOOP_HOME
@@ -36,7 +36,7 @@ COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 COPY mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
 COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/bin" >> ~/.bashrc
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.bashrc
 RUN echo "export HADOOP_HOME=/usr/local/hadoop" >> ~/.bashrc
 RUN echo "export HADOOP_INSTALL=\$HADOOP_HOME" >> ~/.bashrc
 RUN echo "export HADOOP_MAPRED_HOME=\$HADOOP_HOME" >> ~/.bashrc
@@ -108,13 +108,6 @@ RUN mv /usr/local/sqoop/conf/sqoop-env-template.sh /usr/local/sqoop/conf/sqoop-e
 RUN echo "export HADOOP_COMMON_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
 RUN echo "export HADOOP_MAPRED_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
 
-# Install PostgreSQL
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-    apt-get install -y postgresql
-RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
-RUN mv postgresql-42.7.1.jar /usr/local/sqoop/lib/
-
 # Install Zookeeper
 RUN wget https://downloads.apache.org/zookeeper/zookeeper-3.9.1/apache-zookeeper-3.9.1-bin.tar.gz
 RUN tar -xvf apache-zookeeper-3.9.1-bin.tar.gz
@@ -122,6 +115,19 @@ RUN mv apache-zookeeper-3.9.1-bin /usr/local/zookeeper
 RUN mv /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg
 RUN echo "export ZOOKEEPER_HOME=/usr/local/zookeeper" >> ~/.bashrc
 RUN echo "export PATH=\$PATH:\$ZOOKEEPER_HOME/bin" >> ~/.bashrc
+
+# Install Spark
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install -y scala git
+RUN wget https://archive.apache.org/dist/spark/spark-3.4.1/spark-3.4.1-bin-hadoop3.tgz
+RUN tar -xf spark-$SPARK_VERSION-bin-hadoop3.tgz
+RUN mv spark-$SPARK_VERSION-bin-hadoop3 /opt/spark
+RUN echo "export SPARK_HOME=/usr/local/spark" >> ~/.bashrc
+RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin:\$SPARK_HOME/sbin" >> ~/.bashrc
+
+# Install Pyspark
+RUN pip install pyspark
 
 # Expose necessary ports
 EXPOSE 9870 8088 9000
