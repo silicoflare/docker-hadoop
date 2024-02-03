@@ -129,5 +129,15 @@ RUN echo "export SPARK_HOME=/usr/local/spark" >> ~/.bashrc && \
 # Install Pyspark
 RUN pip install pyspark
 
+# Install Kafka
+RUN wget https://downloads.apache.org/kafka/3.6.1/kafka_2.13-3.6.1.tgz
+RUN tar -xzvf kafka_2.13-3.6.1.tgz
+RUN mv kafka_2.13-3.6.1 /usr/local/kafka
+RUN echo "export KAFKA_HOME=/usr/local/kafka" >> ~/.bashrc && /
+    echo "export PATH=\$PATH:\$KAFKA_HOME/bin" >> ~/.bashrc
+
 # Expose necessary ports
 EXPOSE 9870 8088 9000
+
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["bash"]
