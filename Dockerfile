@@ -137,16 +137,16 @@ RUN echo "export KAFKA_HOME=/usr/local/kafka" >> ~/.bashrc && \
     echo "export PATH=\$PATH:\$KAFKA_HOME/bin" >> ~/.bashrc
 
 # Install Postgresql
-RUN apt-get install postgresql postgresql-contrib
+RUN apt-get install postgresql postgresql-contrib -y
 
 # Connect Postgresql with sqoop
 RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
 RUN mv postgresql-42.7.1.jar /usr/local/sqoop/lib/postgresql-42.7.1.jar
-RUN rm commons-lang3-3.4.jar
+RUN rm /usr/local/sqoop/lib/commons-lang3-3.4.jar
 RUN wget https://dlcdn.apache.org//commons/lang/binaries/commons-lang-2.6-bin.tar.gz
 RUN tar -xvf commons-lang-2.6-bin.tar.gz
-RUN mv commons-lang-2.6-bin/* /usr/local/sqoop/lib
-RUN rm -rf commons-lang-2.6-bin
+RUN mv commons-lang-2.6/* /usr/local/sqoop/lib
+RUN rm -rf commons-lang-2.6
 RUN mkdir /usr/local/sqoop/conf/manager.d
 RUN echo "org.postgresql.Driver=/usr/lib/sqoop/lib/postgresql-42.7.1.jar" > postgresql
 
