@@ -36,24 +36,24 @@ COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 COPY mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
 COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.bashrc
-RUN echo "export HADOOP_HOME=/usr/local/hadoop" >> ~/.bashrc
-RUN echo "export HADOOP_INSTALL=\$HADOOP_HOME" >> ~/.bashrc
-RUN echo "export HADOOP_MAPRED_HOME=\$HADOOP_HOME" >> ~/.bashrc
-RUN echo "export HADOOP_COMMON_HOME=\$HADOOP_HOME" >> ~/.bashrc
-RUN echo "export HADOOP_HDFS_HOME=\$HADOOP_HOME" >> ~/.bashrc
-RUN echo "export YARN_HOME=\$HADOOP_HOME" >> ~/.bashrc
-RUN echo "export HADOOP_COMMON_LIB_NATIVE_DIR=\$HADOOP_HOME/lib/native" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$HADOOP_HOME/sbin:\$HADOOP_HOME/bin" >> ~/.bashrc
-RUN echo "export HADOOP_OPTS=\"-Djava.library.path=\$HADOOP_HOME/lib/native\"" >> ~/.bashrc
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.bashrc && \
+    echo "export HADOOP_HOME=/usr/local/hadoop" >> ~/.bashrc && \
+    echo "export HADOOP_INSTALL=\$HADOOP_HOME" >> ~/.bashrc && \
+    echo "export HADOOP_MAPRED_HOME=\$HADOOP_HOME" >> ~/.bashrc && \
+    echo "export HADOOP_COMMON_HOME=\$HADOOP_HOME" >> ~/.bashrc && \
+    echo "export HADOOP_HDFS_HOME=\$HADOOP_HOME" >> ~/.bashrc && \
+    echo "export YARN_HOME=\$HADOOP_HOME" >> ~/.bashrc && \
+    echo "export HADOOP_COMMON_LIB_NATIVE_DIR=\$HADOOP_HOME/lib/native" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:\$HADOOP_HOME/sbin:\$HADOOP_HOME/bin" >> ~/.bashrc && \
+    echo "export HADOOP_OPTS=\"-Djava.library.path=\$HADOOP_HOME/lib/native\"" >> ~/.bashrc
 
-RUN echo "HDFS_NAMENODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-RUN echo "HDFS_DATANODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-RUN echo "HDFS_SECONDARYNAMENODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-RUN echo "YARN_NODEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-RUN echo "YARN_RESOURCEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
-RUN echo "export HADOOP_CLASSPATH+=\" \$HADOOP_HOME/lib/*.jar\"" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+RUN echo "HDFS_NAMENODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    echo "HDFS_DATANODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    echo "HDFS_SECONDARYNAMENODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    echo "YARN_NODEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    echo "YARN_RESOURCEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    echo "export HADOOP_CLASSPATH+=\" \$HADOOP_HOME/lib/*.jar\"" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 
 # Copy init and restart scripts
 COPY restart $HADOOP_HOME/bin/restart
@@ -65,18 +65,18 @@ RUN chmod +x $HADOOP_HOME/bin/init
 RUN wget -O pig.tar.gz https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.tar.gz
 RUN tar -xzvf pig.tar.gz
 RUN mv pig-0.17.0 /pig
-RUN echo "export PIG_HOME=/pig" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:/pig/bin" >> ~/.bashrc
-RUN echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
+RUN echo "export PIG_HOME=/pig" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:/pig/bin" >> ~/.bashrc && \
+    echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
 
 # Install hbase
 RUN wget http://apache.mirror.gtcomm.net/hbase/stable/hbase-2.5.7-bin.tar.gz
 RUN tar -xzvf hbase-2.5.7-bin.tar.gz
 RUN mv hbase-2.5.7 /usr/local/hbase
-RUN echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc
-RUN echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh
-RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /usr/local/hbase/conf/hbase-env.sh
+RUN echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc
+RUN echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh && \
+    echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /usr/local/hbase/conf/hbase-env.sh
 COPY hbase-site.xml ~/hbase-site.xml
 
 RUN mkdir -p /hadoop/zookeeper
@@ -86,45 +86,45 @@ RUN chown -R $USER:$USER /hadoop/
 RUN wget https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz
 RUN tar -xzvf apache-hive-3.1.3-bin.tar.gz
 RUN mv apache-hive-3.1.3-bin /usr/local/hive
-RUN echo "export HIVE_HOME=/usr/local/hive" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$HIVE_HOME/bin" >> ~/.bashrc
+RUN echo "export HIVE_HOME=/usr/local/hive" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:\$HIVE_HOME/bin" >> ~/.bashrc
 RUN echo "HADOOP_HOME=/usr/local/hadoop" >> /usr/local/hive/bin/hive-config.sh
 
 # Install Flume
 RUN wget https://archive.apache.org/dist/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
 RUN tar -xzvf apache-flume-1.9.0-bin.tar.gz
 RUN mv apache-flume-1.9.0-bin /usr/local/flume
-RUN echo "export FLUME_HOME=/usr/local/flume" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$FLUME_HOME/bin" >> ~/.bashrc
+RUN echo "export FLUME_HOME=/usr/local/flume" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:\$FLUME_HOME/bin" >> ~/.bashrc
 RUN sed -i '214c\  \$EXEC \$JAVA_HOME/java \$JAVA_OPTS \$FLUME_JAVA_OPTS "\${arr_java_props[@]}" -cp "\$FLUME_CLASSPATH" \\' /usr/local/flume/bin/flume-ng
 
 # Install Sqoop
 RUN wget https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 RUN tar -xzvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
 RUN mv sqoop-1.4.7.bin__hadoop-2.6.0 /usr/local/sqoop
-RUN echo "export SQOOP_HOME=/usr/local/sqoop" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$SQOOP_HOME/bin" >> ~/.bashrc
+RUN echo "export SQOOP_HOME=/usr/local/sqoop" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:\$SQOOP_HOME/bin" >> ~/.bashrc
 RUN mv /usr/local/sqoop/conf/sqoop-env-template.sh /usr/local/sqoop/conf/sqoop-env.sh
-RUN echo "export HADOOP_COMMON_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
-RUN echo "export HADOOP_MAPRED_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
+RUN echo "export HADOOP_COMMON_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh && \
+    echo "export HADOOP_MAPRED_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
 
 # Install Zookeeper
 RUN wget https://downloads.apache.org/zookeeper/zookeeper-3.9.1/apache-zookeeper-3.9.1-bin.tar.gz
 RUN tar -xvf apache-zookeeper-3.9.1-bin.tar.gz
 RUN mv apache-zookeeper-3.9.1-bin /usr/local/zookeeper
 RUN mv /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg
-RUN echo "export ZOOKEEPER_HOME=/usr/local/zookeeper" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$ZOOKEEPER_HOME/bin" >> ~/.bashrc
+RUN echo "export ZOOKEEPER_HOME=/usr/local/zookeeper" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:\$ZOOKEEPER_HOME/bin" >> ~/.bashrc
 
 # Install Spark
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y scala git
 RUN wget https://archive.apache.org/dist/spark/spark-3.4.1/spark-3.4.1-bin-hadoop3.tgz
-RUN tar -xf spark-$SPARK_VERSION-bin-hadoop3.tgz
-RUN mv spark-$SPARK_VERSION-bin-hadoop3 /opt/spark
-RUN echo "export SPARK_HOME=/usr/local/spark" >> ~/.bashrc
-RUN echo "export PATH=\$PATH:\$SPARK_HOME/bin:\$SPARK_HOME/sbin" >> ~/.bashrc
+RUN tar -xf spark-3.4.1-bin-hadoop3.tgz
+RUN mv spark-3.4.1-bin-hadoop3 /usr/local/spark
+RUN echo "export SPARK_HOME=/usr/local/spark" >> ~/.bashrc && \
+    echo "export PATH=\$PATH:\$SPARK_HOME/bin:\$SPARK_HOME/sbin" >> ~/.bashrc
 
 # Install Pyspark
 RUN pip install pyspark
