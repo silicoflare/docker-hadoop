@@ -36,7 +36,7 @@ COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
 COPY mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
 COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 
-RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.bashrc && \
+RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64" >> ~/.bashrc && \
     echo "export HADOOP_HOME=/usr/local/hadoop" >> ~/.bashrc && \
     echo "export HADOOP_INSTALL=\$HADOOP_HOME" >> ~/.bashrc && \
     echo "export HADOOP_MAPRED_HOME=\$HADOOP_HOME" >> ~/.bashrc && \
@@ -52,7 +52,7 @@ RUN echo "HDFS_NAMENODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
     echo "HDFS_SECONDARYNAMENODE_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
     echo "YARN_NODEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
     echo "YARN_RESOURCEMANAGER_USER=root" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
-    echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
     echo "export HADOOP_CLASSPATH+=\" \$HADOOP_HOME/lib/*.jar\"" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 
 # Install pig
@@ -70,7 +70,7 @@ RUN wget http://apache.mirror.gtcomm.net/hbase/stable/hbase-2.5.7-bin.tar.gz && 
     echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc && \
     echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc && \
     echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh && \
-    echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /usr/local/hbase/conf/hbase-env.sh
+    echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64/" >> /usr/local/hbase/conf/hbase-env.sh
 COPY hbase-site.xml ~/hbase-site.xml
 
 RUN mkdir -p /hadoop/zookeeper && \
