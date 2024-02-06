@@ -13,7 +13,7 @@ ENV YARN_RESOURCEMANAGER_USER=root
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get install -y ssh openjdk-8-jdk neovim junit python-is-python3 nano curl python3-pip
+    apt-get install -y ssh openjdk-8-jdk neovim junit python-is-python3 nano curl python3-pip dos2unix
 
 # Download and extract Hadoop
 RUN mkdir -p $HADOOP_HOME && \
@@ -148,7 +148,10 @@ RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar && \
 COPY restart $HADOOP_HOME/bin/restart
 COPY init $HADOOP_HOME/bin/init
 COPY colors $HADOOP_HOME/bin/colors
-RUN chmod +x $HADOOP_HOME/bin/restart && \
+RUN dos2unix $HADOOP_HOME/bin/restart && \
+    dos2unix $HADOOP_HOME/bin/colors && \
+    dos2unix$HADOOP_HOME/bin/init && \
+    chmod +x $HADOOP_HOME/bin/restart && \
     chmod +x $HADOOP_HOME/bin/colors && \
     chmod +x $HADOOP_HOME/bin/init
 
