@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
-service ssh restart
-stop-hbase.sh
-stop-all.sh
-start-all.sh
-start-hbase.sh
-jps
+
+source 'colors'
+
+printf "${FG_BROWN}Restarting SSH... "
+service ssh restart > /dev/nul
+printf "${FG_GREEN}Done!\n${FG_BROWN}Stopping all processes... "
+stop-hbase.sh > /dev/nul
+stop-all.sh > /dev/nul
+
+printf "${FG_GREEN}Done!\n${FG_BROWN}Starting up all processes... "
+start-all.sh > /dev/nul
+start-hbase.sh > /dev/nul
+
+printf "${FG_GREEN}Done!\n${FG_BROWN}Checking processes... "
+printf "\n${FG_BLUE}$(jps | wc -l) processes.${RESET}\n"

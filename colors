@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+FG_RED="\e[31m"
+FG_GREEN="\e[32m"
+FG_BROWN="\e[33m"
+FG_BLUE="\e[34m"
+FG_PURPLE="\e[35m"
+FG_CYAN="\e[36m"
+FG_GRAY="\e[37m"
+
+BG_RED="\e[41m"
+BG_GREEN="\e[42m"
+BG_BROWN="\e[43m"
+BG_BLUE="\e[44m"
+BG_PURPLE="\e[45m"
+BG_CYAN="\e[46m"
+BG_GRAY="\e[47m"
+
+RESET="\e[0m"

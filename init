@@ -1,19 +1,41 @@
 #!/usr/bin/env bash
 
-service ssh restart                 # restart ssh service
-stop-hbase.sh                       # stop all processes
-stop-all.sh
-hdfs namenode -format               # format namenodes
-rm *.tar.gz                         # delete all tar files to save space
+source 'colors'
 
-# start all
-start-all.sh    
-start-hbase.sh
+read -p "Choose your PC name: " name
 
-# hive initialization
-hdfs dfs -mkdir /tmp
-hdfs dfs -chmod g+w /tmp
-hdfs dfs -mkdir -p /user/hive/warehouse
-hdfs dfs -chmod g+w /user/hive/warehouse
-schematool -dbType derby -initSchema
+echo "Choose prompt color:"
+echo -e "\e[0m1] \e[31muser@$name:/#\e[0m"
+echo -e "\e[0m2] \e[32muser@$name:/#\e[0m"
+echo -e "\e[0m3] \e[33muser@$name:/#\e[0m"
+echo -e "\e[0m4] \e[34muser@$name:/#\e[0m"
+echo -e "\e[0m5] \e[35muser@$name:/#\e[0m"
+echo -e "\e[0m6] \e[36muser@$name:/#\e[0m"
+echo -e "\e[0m7] \e[37muser@$name:/#\e[0m"
 
+read -p "Option: " num
+
+echo "PS1=\"\\e[3""$num""m\\u@$name:\\w# \\e[0m\"" >> ~/.bashrc
+
+printf "${FG_BROWN}Restarting SSH... "
+service ssh restart > /dev/nul
+printf "${FG_GREEN}Done!\n${FG_BROWN}Stopping all processes... "
+stop-hbase.sh > /dev/nul
+stop-all.sh > /dev/nul
+printf "${FG_GREEN}Done!\n${FG_BROWN}Formatting HDFS... "
+hdfs namenode -format &> /dev/nul
+
+printf "${FG_GREEN}Done!\n${FG_BROWN}Starting up all processes... "
+start-all.sh > /dev/nul
+start-hbase.sh > /dev/nul
+
+printf "${FG_GREEN}Done!\n${FG_BROWN}Setting up Hive... "
+hdfs dfs -mkdir /tmp > /dev/nul
+hdfs dfs -chmod g+w /tmp > /dev/nul
+hdfs dfs -mkdir -p /user/hive/warehouse > /dev/nul
+hdfs dfs -chmod g+w /user/hive/warehouse > /dev/nul
+schematool -dbType derby -initSchema &> /dev/nul
+
+printf "${FG_GREEN}Done!\n${FG_BROWN}Checking processes... "
+printf "\n${FG_BLUE}$(jps | wc -l) processes.${RESET}\n"
+printf "Enter ${FG_BLUE}source ~/.bashrc${RESET} to see changes!\n"
