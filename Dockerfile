@@ -150,7 +150,7 @@ COPY init $HADOOP_HOME/bin/init
 COPY colors $HADOOP_HOME/bin/colors
 RUN dos2unix $HADOOP_HOME/bin/restart && \
     dos2unix $HADOOP_HOME/bin/colors && \
-    dos2unix$HADOOP_HOME/bin/init && \
+    dos2unix $HADOOP_HOME/bin/init && \
     chmod +x $HADOOP_HOME/bin/restart && \
     chmod +x $HADOOP_HOME/bin/colors && \
     chmod +x $HADOOP_HOME/bin/init
