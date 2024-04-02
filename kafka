@@ -1,0 +1,20 @@
+#!/bin/bash
+
+verb=$1
+arg=$2
+
+if [ $verb == "start" ]; then
+    if [ $arg == "zookeeper" ]; then
+        $KAFKA_HOME/bin/zookeeper-server-start.sh $KAFKA_HOME/config/zookeeper.properties
+    elif [ $arg == "kafka" ]; then
+        $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
+    fi
+elif [ $verb == "create-topic" ]; then
+    $KAFKA_HOME/bin/kafka-topics.sh --create --topic $arg --bootstrap-server localhost:9092
+elif [ $verb == "produce" ]; then
+    $KAFKA_HOME/bin/kafka-console-producer.sh --topic $arg --bootstrap-server localhost:9092
+elif [ $verb == "consume" ]; then
+    $KAFKA_HOME/bin/kafka-console-consumer.sh --topic $arg --from-beginning --bootstrap-server localhost:9092
+elif [ $verb == "submit" ]; then
+    spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1 $arg
+fi

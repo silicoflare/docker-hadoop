@@ -13,11 +13,11 @@ ENV YARN_RESOURCEMANAGER_USER=root
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get install -y ssh openjdk-8-jdk neovim junit python-is-python3 nano curl python3-pip
+    apt-get install -y ssh openjdk-8-jdk neovim junit python-is-python3 nano curl python3-pip dos2unix
 
 # Download and extract Hadoop
 RUN mkdir -p $HADOOP_HOME && \
-    wget -O hadoop.tar.gz https://downloads.apache.org/hadoop/common/stable/hadoop-3.3.6.tar.gz && \
+    wget -O hadoop.tar.gz https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz && \
     tar -xzvf hadoop.tar.gz -C $HADOOP_HOME --strip-components=1
 
 # Configure SSH
@@ -64,9 +64,9 @@ RUN wget -O pig.tar.gz https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.ta
     echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
 
 # Install hbase
-RUN wget http://apache.mirror.gtcomm.net/hbase/stable/hbase-2.5.7-bin.tar.gz && \
-    tar -xzvf hbase-2.5.7-bin.tar.gz && \
-    mv hbase-2.5.7 /usr/local/hbase && \
+RUN wget http://apache.mirror.gtcomm.net/hbase/2.5.8/hbase-2.5.8-bin.tar.gz && \
+    tar -xzvf hbase-2.5.8-bin.tar.gz && \
+    mv hbase-2.5.8 /usr/local/hbase && \
     echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc && \
     echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc && \
     echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh && \
@@ -148,9 +148,15 @@ RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar && \
 COPY restart $HADOOP_HOME/bin/restart
 COPY init $HADOOP_HOME/bin/init
 COPY colors $HADOOP_HOME/bin/colors
-RUN chmod +x $HADOOP_HOME/bin/restart && \
+COPY kafka $HADOOP_HOME/bin/kafka
+RUN dos2unix $HADOOP_HOME/bin/restart && \
+    dos2unix $HADOOP_HOME/bin/colors && \
+    dos2unix $HADOOP_HOME/bin/init && \
+    dos2unix $HADOOP_HOME/bin/kafka && \
+    chmod +x $HADOOP_HOME/bin/restart && \
     chmod +x $HADOOP_HOME/bin/colors && \
-    chmod +x $HADOOP_HOME/bin/init
+    chmod +x $HADOOP_HOME/bin/init && \
+    chmod +x $HADOOP_HOME/bin/kafka
 
 # Cleaning up archives
 RUN rm *.tar.gz && \
