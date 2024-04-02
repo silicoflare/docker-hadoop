@@ -17,7 +17,7 @@ RUN apt-get update && \
 
 # Download and extract Hadoop
 RUN mkdir -p $HADOOP_HOME && \
-    wget -O hadoop.tar.gz https://downloads.apache.org/hadoop/common/stable/hadoop-3.3.6.tar.gz && \
+    wget -O hadoop.tar.gz https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz && \
     tar -xzvf hadoop.tar.gz -C $HADOOP_HOME --strip-components=1
 
 # Configure SSH
@@ -64,9 +64,9 @@ RUN wget -O pig.tar.gz https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.ta
     echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
 
 # Install hbase
-RUN wget http://apache.mirror.gtcomm.net/hbase/stable/hbase-2.5.7-bin.tar.gz && \
-    tar -xzvf hbase-2.5.7-bin.tar.gz && \
-    mv hbase-2.5.7 /usr/local/hbase && \
+RUN wget http://apache.mirror.gtcomm.net/hbase/2.5.8/hbase-2.5.8-bin.tar.gz && \
+    tar -xzvf hbase-2.5.8-bin.tar.gz && \
+    mv hbase-2.5.8 /usr/local/hbase && \
     echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc && \
     echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc && \
     echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh && \
