@@ -148,12 +148,15 @@ RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.1.jar && \
 COPY restart $HADOOP_HOME/bin/restart
 COPY init $HADOOP_HOME/bin/init
 COPY colors $HADOOP_HOME/bin/colors
+COPY kafka $HADOOP_HOME/bin/kafka
 RUN dos2unix $HADOOP_HOME/bin/restart && \
     dos2unix $HADOOP_HOME/bin/colors && \
     dos2unix $HADOOP_HOME/bin/init && \
+    dos2unix $HADOOP_HOME/bin/kafka && \
     chmod +x $HADOOP_HOME/bin/restart && \
     chmod +x $HADOOP_HOME/bin/colors && \
-    chmod +x $HADOOP_HOME/bin/init
+    chmod +x $HADOOP_HOME/bin/init && \
+    chmod +x $HADOOP_HOME/bin/kafka
 
 # Cleaning up archives
 RUN rm *.tar.gz && \
