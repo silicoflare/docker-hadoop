@@ -8,6 +8,11 @@ sudo curl -o /usr/bin/hadock https://gist.githubusercontent.com/aryan-212/57261f
 ```bash
 hadock
 ```
+#### Copying from host
+```bash
+dockcp /path/to/file
+```
+This command copies ```path/to/file``` from host to ```/home``` on your docker container
 ### Uninstallation
 ```bash
 hadock --uninstall
