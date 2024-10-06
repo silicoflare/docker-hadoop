@@ -18,6 +18,11 @@ hadock
 dockcp /path/to/file
 ```
 This command copies ```path/to/file``` from host to ```/home``` on your docker container
+#### Running multiple instances
+```bash
+hadock_again
+```
+Use this command to open another shell in the same docker instance
 ### Uninstallation
 ```bash
 hadock --uninstall
