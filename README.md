@@ -1,14 +1,12 @@
 # Hadoop on Docker
 ## Linux/WSL
 ### Installation
+```bash
+curl -fsSL https://bit.ly/hadoop-script | bash
+```
 if you're using WSL make sure to update it
 ```powershell
 wsl.exe --update
-```
-Installation Script
-```bash
-curl -fsSL https://bit.ly/hadoop-script | bash
-
 ```
 ### Usage
 ```bash
