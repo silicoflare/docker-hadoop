@@ -2,7 +2,7 @@
 ## Linux/WSL
 ### Installation
 ```bash
-curl -fsSL https://bit.ly/hadoop-script | bash
+curl -fsSL https://bit.ly/hadock-install | bash
 ```
 if you're using WSL make sure to update it
 ```powershell
