@@ -12,6 +12,11 @@ wsl.exe --update
 ```bash
 hadock
 ```
+### Update
+```bash
+hadock --uninstall
+curl -fsSL https://bit.ly/hadock-install | bash
+```
 #### Copying from host
 ```bash
 dockcp /path/to/file
