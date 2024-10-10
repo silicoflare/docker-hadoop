@@ -2,7 +2,7 @@
 ## Linux/WSL
 ### Installation
 ```bash
-curl -fsSL https://bit.ly/hadock-install -o bin/hadock && chmod +x bin/hadock
+curl -fsSL https://bit.ly/hadock-install -o ~/hadoock && chmod +x ~/hadoock && sudo mv ~/hadoock /usr/bin/hadoock
 ```
 if you're using WSL make sure to update it
 ```powershell
