@@ -1,20 +1,41 @@
 #!/bin/bash
 
-verb=$1
-arg=$2
+verb="$1"
+arg="$2"
 
-if [ $verb == "start" ]; then
-    if [ $arg == "zookeeper" ]; then
-        $KAFKA_HOME/bin/zookeeper-server-start.sh $KAFKA_HOME/config/zookeeper.properties
-    elif [ $arg == "kafka" ]; then
-        $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
-    fi
-elif [ $verb == "create-topic" ]; then
-    $KAFKA_HOME/bin/kafka-topics.sh --create --topic $arg --bootstrap-server localhost:9092
-elif [ $verb == "produce" ]; then
-    $KAFKA_HOME/bin/kafka-console-producer.sh --topic $arg --bootstrap-server localhost:9092
-elif [ $verb == "consume" ]; then
-    $KAFKA_HOME/bin/kafka-console-consumer.sh --topic $arg --from-beginning --bootstrap-server localhost:9092
-elif [ $verb == "submit" ]; then
-    spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1 $arg
+# Check if KAFKA_HOME is set
+if [ -z "$KAFKA_HOME" ]; then
+  echo "Error: KAFKA_HOME is not set"
+  exit 1
 fi
+
+case "$verb" in
+"start")
+  if [ "$arg" == "zookeeper" ]; then
+    "$KAFKA_HOME/bin/zookeeper-server-start.sh" "$KAFKA_HOME/config/zookeeper.properties" &
+  elif [ "$arg" == "kafka" ]; then
+    "$KAFKA_HOME/bin/kafka-server-start.sh" "$KAFKA_HOME/config/server.properties" &
+  else
+    echo "Error: Invalid argument for 'start'. Use 'zookeeper' or 'kafka'."
+  fi
+  ;;
+"create-topic")
+  "$KAFKA_HOME/bin/kafka-topics.sh" --create --topic "$arg" --bootstrap-server localhost:9092 &
+  ;;
+"produce")
+  "$KAFKA_HOME/bin/kafka-console-producer.sh" --topic "$arg" --bootstrap-server localhost:9092 &
+  ;;
+"consume")
+  "$KAFKA_HOME/bin/kafka-console-consumer.sh" --topic "$arg" --from-beginning --bootstrap-server localhost:9092 &
+  ;;
+"submit")
+  if [ -z "$arg" ]; then
+    echo "Error: Please provide a Spark script."
+  else
+    spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1 "$arg" &
+  fi
+  ;;
+*)
+  echo "Error: Unknown verb. Use 'start', 'create-topic', 'produce', 'consume', or 'submit'."
+  ;;
+esac
