@@ -64,9 +64,9 @@ RUN wget -O pig.tar.gz https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.ta
     echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
 
 # Install hbase
-RUN wget http://apache.mirror.gtcomm.net/hbase/2.5.8/hbase-2.5.8-bin.tar.gz && \
-    tar -xzvf hbase-2.5.8-bin.tar.gz && \
-    mv hbase-2.5.8 /usr/local/hbase && \
+RUN wget https://apache.mirror.gtcomm.net/hbase/3.0.0-beta-1/hbase-3.0.0-beta-1-bin.tar.gz && \
+    tar -xzvf hbase-3.0.0-beta-1-bin.tar.gz && \
+    mv hbase-3.0.0-beta-1-bin.tar.gz /usr/local/hbase && \
     echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc && \
     echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc && \
     echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh && \
