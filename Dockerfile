@@ -64,9 +64,9 @@ RUN wget -O pig.tar.gz https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.ta
     echo "export PIG_CLASSPATH=\$HADOOP_HOME/etc/hadoop" >> ~/.bashrc
 
 # Install hbase
-RUN wget https://apache.mirror.gtcomm.net/hbase/3.0.0-beta-1/hbase-3.0.0-beta-1-bin.tar.gz && \
+RUN wget https://archive.apache.org/dist/hbase/3.0.0-beta-1/hbase-3.0.0-beta-1-bin.tar.gz && \
     tar -xzvf hbase-3.0.0-beta-1-bin.tar.gz && \
-    mv hbase-3.0.0-beta-1-bin.tar.gz /usr/local/hbase && \
+    mv hbase-3.0.0-beta-1 /usr/local/hbase && \
     echo "export HBASE_HOME=/usr/local/hbase" >> ~/.bashrc && \
     echo "export PATH=\$PATH:\$HBASE_HOME/bin" >> ~/.bashrc && \
     echo "export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP=\"true\"" >> /usr/local/hbase/conf/hbase-env.sh && \
@@ -77,7 +77,7 @@ RUN mkdir -p /hadoop/zookeeper && \
     chown -R $USER:$USER /hadoop/
 
 # Install Hive
-RUN wget https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz && \
+RUN wget http://archive.apache.org/dist/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz && \
     tar -xzvf apache-hive-3.1.3-bin.tar.gz && \
     mv apache-hive-3.1.3-bin /usr/local/hive && \
     echo "export HIVE_HOME=/usr/local/hive" >> ~/.bashrc && \
@@ -103,7 +103,7 @@ RUN wget https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6
     echo "export HADOOP_MAPRED_HOME=/usr/local/hadoop" >> /usr/local/sqoop/conf/sqoop-env.sh
 
 # Install Zookeeper
-RUN wget https://downloads.apache.org/zookeeper/zookeeper-3.9.1/apache-zookeeper-3.9.1-bin.tar.gz && \
+RUN wget https://archive.apache.org/dist/zookeeper/zookeeper-3.9.1/apache-zookeeper-3.9.1-bin.tar.gz && \
     tar -xvf apache-zookeeper-3.9.1-bin.tar.gz && \
     mv apache-zookeeper-3.9.1-bin /usr/local/zookeeper && \
     mv /usr/local/zookeeper/conf/zoo_sample.cfg /usr/local/zookeeper/conf/zoo.cfg && \
@@ -121,10 +121,10 @@ RUN apt-get update && \
     echo "export PATH=\$PATH:\$SPARK_HOME/bin:\$SPARK_HOME/sbin" >> ~/.bashrc
 
 # Install Pyspark
-RUN pip install pyspark
+RUN pip install pyspark --break-system-packages
 
 # Install Kafka
-RUN wget https://downloads.apache.org/kafka/3.6.1/kafka_2.13-3.6.1.tgz && \
+RUN wget https://archive.apache.org/dist/kafka/3.6.1/kafka_2.13-3.6.1.tgz && \
     tar -xzvf kafka_2.13-3.6.1.tgz && \
     mv kafka_2.13-3.6.1 /usr/local/kafka && \
     echo "export KAFKA_HOME=/usr/local/kafka" >> ~/.bashrc && \
